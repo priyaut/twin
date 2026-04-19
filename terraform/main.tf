@@ -45,14 +45,6 @@ resource "aws_s3_bucket" "frontend" {
   tags   = local.common_tags
 }
 
-resource "aws_s3_bucket_public_access_block" "frontend" {
-  bucket = aws_s3_bucket.frontend.id
-
-  block_public_acls       = false
-  block_public_policy     = false
-  ignore_public_acls      = false
-  restrict_public_buckets = false
-}
 
 resource "aws_s3_bucket_website_configuration" "frontend" {
   bucket = aws_s3_bucket.frontend.id
@@ -217,16 +209,12 @@ resource "aws_cloudfront_distribution" "main" {
   }
 
   origin {
-    domain_name = aws_s3_bucket_website_configuration.frontend.website_endpoint
-    origin_id   = "S3-${aws_s3_bucket.frontend.id}"
+  domain_name = aws_s3_bucket.frontend.bucket_regional_domain_name
+  origin_id   = "frontend"
 
-    custom_origin_config {
-      http_port              = 80
-      https_port             = 443
-      origin_protocol_policy = "http-only"
-      origin_ssl_protocols   = ["TLSv1.2"]
-    }
-  }
+  origin_access_control_id = aws_cloudfront_origin_access_control.frontend_oac.id
+}
+
 
   enabled             = true
   is_ipv6_enabled     = true
@@ -353,4 +341,9 @@ resource "aws_route53_record" "alias_www_ipv6" {
     zone_id                = aws_cloudfront_distribution.main.hosted_zone_id
     evaluate_target_health = false
   }
+}resource "aws_cloudfront_origin_access_control" "frontend_oac" {
+  name                              = "twin-frontend-oac"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
 }
