@@ -1,0 +1,21 @@
+{
+    "full_name": "Priya Uttarkar",
+    "name": "Priya",
+    "current_role": "Technical Product Leader",
+    "location": "New york",
+    "email": "pria.ravin@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/priyauttarkar/",
+    "specialties": [
+      "AWS", "AI", "LLM",
+      "Data Engineering",
+      "Data governance and security"
+    ],
+    "years_experience": 10,
+    "education": [
+      {
+        "degree": "Masters",
+        "institution": "Bangalore University",
+        "year": "2010"
+      }
+    ]
+  }
