@@ -341,7 +341,8 @@ resource "aws_route53_record" "alias_www_ipv6" {
     zone_id                = aws_cloudfront_distribution.main.hosted_zone_id
     evaluate_target_health = false
   }
-}resource "aws_cloudfront_origin_access_control" "frontend_oac" {
+}
+resource "aws_cloudfront_origin_access_control" "frontend_oac" {
   name                              = "twin-frontend-oac"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
